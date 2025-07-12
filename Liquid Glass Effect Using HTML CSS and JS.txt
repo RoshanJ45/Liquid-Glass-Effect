@@ -1,0 +1,90 @@
+<html>
+<body>
+    <style>
+        body {
+height: 150vh;
+background: url("https://images.unsplash.com/photo-1683657535824-5b570c7a1749");
+background-size: cover;
+animation: floatBG 15s ease-in-out infinite;
+background-color: #333;
+}
+@keyframes floatBG {
+0%,
+100% {
+background-position: center center;
+}
+25% {
+background-position: 30% 70%;
+}
+50% {
+background-position: 70% 30%;
+}
+75% {
+background-position: 40% 60%;
+}
+}
+.glass-button {
+position: fixed;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+cursor: pointer;
+outline: none;
+width: 350px;
+height: 180px;
+border-radius: 999px;
+border: 1px solid rgba(255, 255, 255, 0.3); 255, 0.3);
+background: linear-gradient(
+135deg,
+rgba(255, 255, 255, 0.2) 0%,
+rgba(255, 255, 255, 0.08) 50%,
+rgba(255, 255, 255, 0.03) 100%
+);
+backdrop-filter: url(#glass);
+transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+}
+.glass-button span {
+font-family: "Orbitron", sans-serif;
+color: white;
+font-size: 2.5rem;
+font-weight: 600;
+text-transform: uppercase;
+letter-spacing: 0.1em;
+}
+.glass-button:hover {
+transform: translate(-50%, -50%) scale(1.05);
+}
+    </style>
+<button class="glass-button">
+<span>CRYSTAL</span>
+</button>
+<svg style="position: absolute; width: 0; height: 0">
+<filter id="glass"
+x="-50%" y="-50%"
+width="200%" height="200%"
+primitiveUnits="objectBoundingBox">
+<feImage x="-50%" y="-50%"
+width="200%" height="200%"
+result="map" />
+<feGaussianBlur in="SourceGraphic"
+stdDeviation="0.02" result="blur" />
+<feDisplacementMap id="disp"
+in="blur" in2="map" scale="0.8"
+xChannelSelector="R"
+yChannelSelector="G">
+</feDisplacementMap>
+</filter>
+</svg>
+<script>
+    const feImage = document.querySelector("feImage");
+fetch("https://essykings.github.io/JavaScript/map.png")
+.then((response) => {
+return response.blob();
+})
+.then((blob) => {
+const objURL = URL.createObjectURL(blob);
+feImage.setAttribute("href", objURL);
+});
+</script>
+</body>
+</html>
